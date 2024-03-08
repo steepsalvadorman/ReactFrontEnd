@@ -1,15 +1,21 @@
+import slide1 from "./../assets/images/banner1.jpg";
+import slide2 from "./../assets/images/banner2.jpg";
+import slide3 from "./../assets/images/banner3.jpg";
+
+
+
 function MainBanner() {
   return (
-    <div id="carouselExample" className="carousel slide">
+    <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
       <div className="carousel-inner">
         <div className="carousel-item active">
-          <img src="..." className="d-block w-100" alt="..." />
+          <img src={slide1} className="d-block w-100" alt="..." />
         </div>
         <div className="carousel-item">
-          <img src="..." className="d-block w-100" alt="..." />
+          <img src={slide2} className="d-block w-100" alt="..." />
         </div>
         <div className="carousel-item">
-          <img src="..." className="d-block w-100" alt="..." />
+          <img src={slide3} className="d-block w-100" alt="..." />
         </div>
       </div>
       <button

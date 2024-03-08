@@ -43,3 +43,10 @@ h3 {
   padding-top: 90px;
   padding-bottom: 90px;
 }
+
+
+@media (min-width: 1680px){
+  .container, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
+    max-width: 1600px;
+  }
+}

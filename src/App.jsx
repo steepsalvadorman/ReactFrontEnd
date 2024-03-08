@@ -1,20 +1,30 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 import MainFooter from "./common/MainFooter";
 import MainHeader from "./common/MainHeader";
-import Historia from "./home/Historia";
-import MainBanner from "./home/MainBanner";
-import Nosotros from "./home/Nosotros";
-import Noticias from "./home/Noticias";
+import MainNav from "./common/MainNav";
+import Inicio from "./pages/Inicio";
+import Inversiones from "./pages/Inversiones";
+import Proveedores from "./pages/Proveedores";
+import Empleados from "./pages/Empleados";
 
 function App() {
   return (
     <>
-      <MainHeader />
-      <MainBanner />
-      <Nosotros />
-      <Noticias />
-      <Historia />
-      <MainFooter />
+      <BrowserRouter>
+        <MainHeader />
+        <MainNav />
+
+        <Routes>
+          <Route path="/" element={<Inicio />} />
+          <Route path="/inversiones" element={<Inversiones />} />
+          <Route path="/proveedores" element={<Proveedores />} />
+          <Route path="/empleados" element={<Empleados />} />
+
+        </Routes>
+
+        <MainFooter />
+      </BrowserRouter>
     </>
   );
 }
