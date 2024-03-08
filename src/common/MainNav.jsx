@@ -19,6 +19,9 @@ function MainNav() {
         <li className="nav-item">
           <Link className="nav-link" to="/empleados">Empleados</Link>
         </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/tienda">Tienda</Link>
+        </li>
       </ul>
         <form className="d-flex" role="search">
             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

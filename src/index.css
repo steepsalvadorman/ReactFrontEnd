@@ -50,3 +50,9 @@ h3 {
     max-width: 1600px;
   }
 }
+
+
+.list-group-item.active {
+  background-color: var(--color2);
+  border-color: var(--color-negro);
+}
