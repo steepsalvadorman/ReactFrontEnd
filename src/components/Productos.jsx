@@ -4,18 +4,20 @@ import { useEffect } from "react"
 import { useState } from "react"
 import nofoto from "./../assets/images/nofoto.jpg"
 import { Link } from "react-router-dom"
+import { ApiWebURL } from "../utils"
 
 function Productos(props) {
     console.log(props)
     const [listaProductos, setListaProductos] = useState([])
     const [productoSeleccionado, setProductoSeleccionado] = useState([])
+    const [cantidadProducto, setCantidadProducto] = useState(1)
 
     useEffect(() => {
         leerServicio(props.categoriaProductos)
     }, [props.categoriaProductos])
 
     const leerServicio = (idcategoria) => {
-        const rutaServicio = "https://servicios.campus.pe/productos.php?idcategoria=" + idcategoria
+        const rutaServicio = ApiWebURL + "productos.php?idcategoria=" + idcategoria
         fetch(rutaServicio)
             .then(response => response.json())
             .then(data => {
@@ -33,7 +35,7 @@ function Productos(props) {
 
     const leerProductoSeleccionado = (idproducto) => {
         console.log(idproducto)
-        const rutaServicio = "https://servicios.campus.pe/productos.php?idproducto=" + idproducto
+        const rutaServicio = ApiWebURL + "productos.php?idproducto=" + idproducto
         fetch(rutaServicio)
             .then(response => response.json())
             .then(data => {
@@ -54,7 +56,7 @@ function Productos(props) {
                             <Link to={"/productodetalle/" + item.idproducto}>
                                 <img src={item.imagenchica === null
                                     ? nofoto
-                                    : "https://servicios.campus.pe/" + item.imagenchica}
+                                    : ApiWebURL + item.imagenchica}
                                     className="card-img-top" alt="..." />
                             </Link>
 
@@ -77,7 +79,7 @@ function Productos(props) {
                                             ? ""
                                             : "S/" + parseFloat(item.precio).toFixed(2)}
                                     </span> <i className="bi bi-cart4 icono-carrito" 
-                                        onClick={() => agregarCarrito(item)}
+                                        onClick={() => agregarCarrito(item, 1)}
                                         title="Añadir al carrito"></i>
                                 </p>
                             </div>
@@ -88,13 +90,35 @@ function Productos(props) {
         )
     }
 
-    const agregarCarrito = (item) =>   {
-        item.cantidad = 1
+    const agregarCarrito = (item, cantProducto) =>   {
+        setCantidadProducto(1)
+        item.cantidad = Number(cantProducto)
         item.precio = item.preciorebajado === "0" ? item.precio : item.preciorebajado
         console.log(item)
         let carrito = []
-        carrito.push(item)
+        if(sessionStorage.getItem("carritocompras")){
+            console.log(carrito)
+            carrito = JSON.parse(sessionStorage.getItem("carritocompras"))
+            let index = -1
+            for(let i=0; i<carrito.length; i++){
+                if(item.idproducto === carrito[i].idproducto){
+                    index = i
+                    break
+                }
+            }
+            if(index === -1 ){
+                carrito.push(item)
+            }
+            else{
+                carrito[index].cantidad += Number(cantProducto)
+            }
+        }
+        else{
+            carrito.push(item)
+        }
+        
         sessionStorage.setItem("carritocompras", JSON.stringify(carrito))
+        console.log(carrito)
     }
 
     const dibujarVistaRapidaModal = () => {
@@ -111,7 +135,7 @@ function Productos(props) {
                                 <div className="col">
                                     <img src={productoSeleccionado.imagengrande === null
                                         ? nofoto
-                                        : "https://servicios.campus.pe/" + productoSeleccionado.imagengrande}
+                                        : ApiWebURL + productoSeleccionado.imagengrande}
                                         className="img-fluid" alt="..." />
                                 </div>
                                 <div className="col">
@@ -140,6 +164,12 @@ function Productos(props) {
                                                             : "S/" + parseFloat(productoSeleccionado.precio).toFixed(2)}
                                                     </span></td>
                                             </tr>
+                                            <tr>
+                                                <th>Cantidad</th>
+                                                <td><input type="number" className="form-control" min="1"
+                                                        value={cantidadProducto}
+                                                        onChange={(event) => setCantidadProducto(event.target.value)}/></td>
+                                            </tr>
                                         </tbody>
                                     </table>
                                 </div>
@@ -147,7 +177,8 @@ function Productos(props) {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                            <button type="button" className="btn btn-primary">Añadir al carrito</button>
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
+                                onClick={() => agregarCarrito(productoSeleccionado, cantidadProducto)}>Añadir al carrito</button>
                         </div>
                     </div>
                 </div>

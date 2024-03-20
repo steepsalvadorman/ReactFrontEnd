@@ -18,7 +18,12 @@
     opacity: 0;
     transition: all .5s ease-in-out;
 }
-.icono-vista-rapida:hover{
+
+.icono-carrito{
+    cursor: pointer;
+}
+.icono-vista-rapida:hover,
+.icono-carrito:hover{
     color:var(--color2);
 }
 .icono-vista-rapida-final{
