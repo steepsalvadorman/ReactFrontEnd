@@ -1,0 +1,6 @@
+.icono-editar, .icono-eliminar{
+    cursor: pointer;
+}
+.icono-editar:hover, .icono-eliminar:hover{
+    color: var(--color2);
+}

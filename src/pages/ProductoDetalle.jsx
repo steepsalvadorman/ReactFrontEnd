@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import nofoto from "./../assets/images/nofoto.jpg"
+import { ApiWebURL } from "../utils"
 
 function ProductoDetalle() {
     const [productoSeleccionado, setProductoSeleccionado] = useState([])
@@ -14,7 +15,7 @@ function ProductoDetalle() {
     }, [])
 
     const leerServicio = () => {
-        const rutaServicio = "https://servicios.campus.pe/productos.php?idproducto=" + params.idproducto
+        const rutaServicio = ApiWebURL + "productos.php?idproducto=" + params.idproducto
         fetch(rutaServicio)
             .then(response => response.json())
             .then(data => {
@@ -31,7 +32,7 @@ function ProductoDetalle() {
                     <div className="col">
                         <img src={productoSeleccionado.imagengrande === null
                             ? nofoto
-                            : "https://servicios.campus.pe/" + productoSeleccionado.imagengrande}
+                            : ApiWebURL + productoSeleccionado.imagengrande}
                             className="img-fluid" alt="..." />
                     </div>
                     <div className="col">

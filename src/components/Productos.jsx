@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { useState } from "react"
 import nofoto from "./../assets/images/nofoto.jpg"
 import { Link } from "react-router-dom"
-import { ApiWebURL } from "../utils"
+import { ApiWebURL, agregarCarrito } from "../utils"
 
 function Productos(props) {
     console.log(props)
@@ -90,36 +90,7 @@ function Productos(props) {
         )
     }
 
-    const agregarCarrito = (item, cantProducto) =>   {
-        setCantidadProducto(1)
-        item.cantidad = Number(cantProducto)
-        item.precio = item.preciorebajado === "0" ? item.precio : item.preciorebajado
-        console.log(item)
-        let carrito = []
-        if(sessionStorage.getItem("carritocompras")){
-            console.log(carrito)
-            carrito = JSON.parse(sessionStorage.getItem("carritocompras"))
-            let index = -1
-            for(let i=0; i<carrito.length; i++){
-                if(item.idproducto === carrito[i].idproducto){
-                    index = i
-                    break
-                }
-            }
-            if(index === -1 ){
-                carrito.push(item)
-            }
-            else{
-                carrito[index].cantidad += Number(cantProducto)
-            }
-        }
-        else{
-            carrito.push(item)
-        }
-        
-        sessionStorage.setItem("carritocompras", JSON.stringify(carrito))
-        console.log(carrito)
-    }
+
 
     const dibujarVistaRapidaModal = () => {
         return (
@@ -178,7 +149,10 @@ function Productos(props) {
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                             <button type="button" className="btn btn-primary" data-bs-dismiss="modal"
-                                onClick={() => agregarCarrito(productoSeleccionado, cantidadProducto)}>Añadir al carrito</button>
+                                onClick={() => {
+                                    agregarCarrito(productoSeleccionado, cantidadProducto)
+                                    setCantidadProducto(1)
+                                }}>Añadir al carrito</button>
                         </div>
                     </div>
                 </div>
